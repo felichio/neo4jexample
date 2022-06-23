@@ -1,0 +1,7 @@
+data/
+neo_data*/
+temp/
+obj/
+bin/
+client/
+app/
