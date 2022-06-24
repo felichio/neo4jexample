@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+
 using System.Linq;
 using System.Threading.Tasks;
 using Neo4j.Driver;
@@ -156,7 +157,7 @@ namespace inserter
             {
                 await session.CloseAsync();
             }
-            return result.Counters.IndexesCreated > 0 ? "ok" : "nok";
+            return result.Counters.IndexesAdded > 0 ? "ok" : "nok";
         }
 
         public async Task<string> CreateInputHashIndex()
@@ -177,7 +178,7 @@ namespace inserter
             {
                 await session.CloseAsync();
             }
-            return result.Counters.IndexesCreated > 0 ? "ok" : "nok";
+            return result.Counters.IndexesAdded > 0 ? "ok" : "nok";
         }
 
         public async Task<string> CreateOutputHashIndex()
@@ -198,7 +199,7 @@ namespace inserter
             {
                 await session.CloseAsync();
             }
-            return result.Counters.IndexesCreated > 0 ? "ok" : "nok";
+            return result.Counters.IndexesAdded > 0 ? "ok" : "nok";
         }
 
         public async Task<string> CreateInputRecipientIndex()
@@ -219,7 +220,7 @@ namespace inserter
             {
                 await session.CloseAsync();
             }
-            return result.Counters.IndexesCreated > 0 ? "ok" : "nok";
+            return result.Counters.IndexesAdded > 0 ? "ok" : "nok";
         }
 
         public async Task<string> CreateOutputRecipientIndex()
@@ -240,7 +241,7 @@ namespace inserter
             {
                 await session.CloseAsync();
             }
-            return result.Counters.IndexesCreated > 0 ? "ok" : "nok";
+            return result.Counters.IndexesAdded > 0 ? "ok" : "nok";
         }
 
         
