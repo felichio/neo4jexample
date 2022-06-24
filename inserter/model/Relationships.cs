@@ -20,8 +20,8 @@ namespace inserter
             
             try
             {
-                Console.WriteLine("Making Block<-[:VALIDATED_FROM]-Transaction relationships");
                 result = await session.WriteTransactionAsync(async tx => {
+                    Console.WriteLine("Making Block<-[:VALIDATED_FROM]-Transaction relationships");
                     var reader = await tx.RunAsync("MATCH (b:Block), (t:Transaction) WHERE b.id = t.block_id CREATE (b)<-[:VALIDATED_FROM]-(t);");
                     return await reader.ConsumeAsync();
                 });
@@ -41,8 +41,8 @@ namespace inserter
             
             try
             {
-                Console.WriteLine("Making Transaction<-[:FEEDS]-Input relationships");
                 result = await session.WriteTransactionAsync(async tx => {
+                    Console.WriteLine("Making Transaction<-[:FEEDS]-Input relationships");
                     var reader = await tx.RunAsync("MATCH (t:Transaction), (i:Input) WHERE t.hash = i.spending_transaction_hash CREATE (t)<-[:FEEDS]-(i);");
                     return await reader.ConsumeAsync();
                 });
@@ -62,8 +62,8 @@ namespace inserter
             
             try
             {
-                Console.WriteLine("Making Output<-[:PAYS]-Transaction relationships");
                 result = await session.WriteTransactionAsync(async tx => {
+                    Console.WriteLine("Making Output<-[:PAYS]-Transaction relationships");
                     var reader = await tx.RunAsync("MATCH (t:Transaction), (o:Output) WHERE t.hash = o.transaction_hash CREATE (t)-[:PAYS]->(o);");
                     return await reader.ConsumeAsync();
                 });
@@ -83,8 +83,8 @@ namespace inserter
             
             try
             {
-                Console.WriteLine("Making Input<-[:SPENDS]-Output relationships");
                 result = await session.WriteTransactionAsync(async tx => {
+                    Console.WriteLine("Making Input<-[:SPENDS]-Output relationships");
                     var reader = await tx.RunAsync("MATCH (o:Output), (i:Input) WHERE o.transaction_hash = i.transaction_hash and o.recipient = i.recipient and o.index = i.index CREATE (o)-[:SPENDS]->(i);");
                     return await reader.ConsumeAsync();
                 });
@@ -104,8 +104,8 @@ namespace inserter
             
             try
             {
-                Console.WriteLine("Making GuessedMiner<-[:GUESSED_FROM]-Block relationships");
                 result = await session.WriteTransactionAsync(async tx => {
+                    Console.WriteLine("Making GuessedMiner<-[:GUESSED_FROM]-Block relationships");
                     var reader = await tx.RunAsync("MATCH (b:Block) MERGE (g:GuessedMiner {name: b.guessed_miner}) MERGE (b)-[:GUESSED_FROM]->(g);");
                     return await reader.ConsumeAsync();
                 });
@@ -125,8 +125,8 @@ namespace inserter
             
             try
             {
-                Console.WriteLine("Create transaction hash index");
                 result = await session.WriteTransactionAsync(async tx => {
+                    Console.WriteLine("Create transaction hash index");
                     var reader = await tx.RunAsync("CREATE INDEX FOR (t:Transaction) ON (t.hash);");
                     return await reader.ConsumeAsync();
                 });
@@ -146,8 +146,8 @@ namespace inserter
             
             try
             {
-                Console.WriteLine("create transaction time index");
                 result = await session.WriteTransactionAsync(async tx => {
+                    Console.WriteLine("create transaction time index");
                     var reader = await tx.RunAsync("CREATE INDEX FOR (t:Transaction) ON (t.time);");
                     return await reader.ConsumeAsync();
                 });
@@ -167,8 +167,8 @@ namespace inserter
             
             try
             {
-                Console.WriteLine("create input transaction_hash index");
                 result = await session.WriteTransactionAsync(async tx => {
+                    Console.WriteLine("create input transaction_hash index");
                     var reader = await tx.RunAsync("CREATE INDEX FOR (i:Input) ON (i.transaction_hash);");
                     return await reader.ConsumeAsync();
                 });
@@ -188,8 +188,8 @@ namespace inserter
             
             try
             {
-                Console.WriteLine("create output transaction_hash index");
                 result = await session.WriteTransactionAsync(async tx => {
+                    Console.WriteLine("create output transaction_hash index");
                     var reader = await tx.RunAsync("CREATE INDEX FOR (o:Output) ON (o.transaction_hash);");
                     return await reader.ConsumeAsync();
                 });
@@ -209,8 +209,8 @@ namespace inserter
             
             try
             {
-                Console.WriteLine("create input recipient index");
                 result = await session.WriteTransactionAsync(async tx => {
+                    Console.WriteLine("create input recipient index");
                     var reader = await tx.RunAsync("CREATE INDEX FOR (i:Input) ON (i.recipient);");
                     return await reader.ConsumeAsync();
                 });
@@ -230,8 +230,8 @@ namespace inserter
             
             try
             {
-                Console.WriteLine("create output recipient index");
                 result = await session.WriteTransactionAsync(async tx => {
+                    Console.WriteLine("create output recipient index");
                     var reader = await tx.RunAsync("CREATE INDEX FOR (o:Output) ON (o.recipient);");
                     return await reader.ConsumeAsync();
                 });
@@ -244,9 +244,6 @@ namespace inserter
             return result.Counters.IndexesAdded > 0 ? "ok" : "nok";
         }
 
-        
-
     };
-
 
 }
