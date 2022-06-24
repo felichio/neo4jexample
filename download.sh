@@ -10,6 +10,6 @@
 for x in transactions blocks inputs outputs ; do
     for y in https://gz.blockchair.com/bitcoin/${x}/blockchair_bitcoin_${x}_201605{01..31}.tsv.gz; do
         wget ${y} -P data2
-        gzip -d data2/$(echo ${y} | cut -d "/" -f 6)
+        gzip -d data/$(echo ${y} | cut -d "/" -f 6)
     done
 done
