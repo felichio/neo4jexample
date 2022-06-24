@@ -136,7 +136,7 @@ namespace inserter
             {
                 await session.CloseAsync();
             }
-            return result.Counters.IndexesCreated > 0 ? "ok" : "nok";
+            return result.Counters.IndexesAdded > 0 ? "ok" : "nok";
         }
 
         public async Task<string> CreateTransactionDateIndex()
