@@ -117,6 +117,132 @@ namespace inserter
             return result.Counters.RelationshipsCreated > 0 ? "ok" : "nok";
         }
 
+        public async Task<string> CreateTransactionHashIndex()
+        {
+            var session = _driver.AsyncSession();
+            IResultSummary result;
+            
+            try
+            {
+                Console.WriteLine("Create transaction hash index");
+                result = await session.WriteTransactionAsync(async tx => {
+                    var reader = await tx.RunAsync("CREATE INDEX FOR (t:Transaction) ON (t.hash);");
+                    return await reader.ConsumeAsync();
+                });
+                
+            }
+            finally
+            {
+                await session.CloseAsync();
+            }
+            return result.Counters.IndexesCreated > 0 ? "ok" : "nok";
+        }
+
+        public async Task<string> CreateTransactionDateIndex()
+        {
+            var session = _driver.AsyncSession();
+            IResultSummary result;
+            
+            try
+            {
+                Console.WriteLine("create transaction time index");
+                result = await session.WriteTransactionAsync(async tx => {
+                    var reader = await tx.RunAsync("CREATE INDEX FOR (t:Transaction) ON (t.time);");
+                    return await reader.ConsumeAsync();
+                });
+                
+            }
+            finally
+            {
+                await session.CloseAsync();
+            }
+            return result.Counters.IndexesCreated > 0 ? "ok" : "nok";
+        }
+
+        public async Task<string> CreateInputHashIndex()
+        {
+            var session = _driver.AsyncSession();
+            IResultSummary result;
+            
+            try
+            {
+                Console.WriteLine("create input transaction_hash index");
+                result = await session.WriteTransactionAsync(async tx => {
+                    var reader = await tx.RunAsync("CREATE INDEX FOR (i:Input) ON (i.transaction_hash);");
+                    return await reader.ConsumeAsync();
+                });
+                
+            }
+            finally
+            {
+                await session.CloseAsync();
+            }
+            return result.Counters.IndexesCreated > 0 ? "ok" : "nok";
+        }
+
+        public async Task<string> CreateOutputHashIndex()
+        {
+            var session = _driver.AsyncSession();
+            IResultSummary result;
+            
+            try
+            {
+                Console.WriteLine("create output transaction_hash index");
+                result = await session.WriteTransactionAsync(async tx => {
+                    var reader = await tx.RunAsync("CREATE INDEX FOR (o:Output) ON (o.transaction_hash);");
+                    return await reader.ConsumeAsync();
+                });
+                
+            }
+            finally
+            {
+                await session.CloseAsync();
+            }
+            return result.Counters.IndexesCreated > 0 ? "ok" : "nok";
+        }
+
+        public async Task<string> CreateInputRecipientIndex()
+        {
+            var session = _driver.AsyncSession();
+            IResultSummary result;
+            
+            try
+            {
+                Console.WriteLine("create input recipient index");
+                result = await session.WriteTransactionAsync(async tx => {
+                    var reader = await tx.RunAsync("CREATE INDEX FOR (i:Input) ON (i.recipient);");
+                    return await reader.ConsumeAsync();
+                });
+                
+            }
+            finally
+            {
+                await session.CloseAsync();
+            }
+            return result.Counters.IndexesCreated > 0 ? "ok" : "nok";
+        }
+
+        public async Task<string> CreateOutputRecipientIndex()
+        {
+            var session = _driver.AsyncSession();
+            IResultSummary result;
+            
+            try
+            {
+                Console.WriteLine("create output recipient index");
+                result = await session.WriteTransactionAsync(async tx => {
+                    var reader = await tx.RunAsync("CREATE INDEX FOR (o:Output) ON (o.recipient);");
+                    return await reader.ConsumeAsync();
+                });
+                
+            }
+            finally
+            {
+                await session.CloseAsync();
+            }
+            return result.Counters.IndexesCreated > 0 ? "ok" : "nok";
+        }
+
         
 
     };

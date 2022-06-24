@@ -31,16 +31,30 @@ namespace inserter
             }
 
             Relationships rel = new Relationships();
-            await Task.WhenAll(
-                new List<Task<string>>() 
-                {
-                    rel.CreateBlockTransaction(),
-                    rel.CreateInputTransaction(),
-                    rel.CreateOutputTransaction(),
-                    rel.CreateOutputInput(),
-                    rel.CreateGuessedMinerBlock()
-                }
-            );
+            
+            var IndexTasks = new List<Task<string>>() 
+            {
+                rel.CreateTransactionHashIndex(),
+                rel.CreateTransactionDateIndex(),
+                rel.CreateInputHashIndex(),
+                rel.CreateOutputHashIndex(),
+                rel.CreateInputRecipientIndex(),
+                rel.CreateOutputRecipientIndex()
+            };
+
+            var RelsTasks = new List<Task<string>>() 
+            {
+                rel.CreateBlockTransaction(),
+                rel.CreateInputTransaction(),
+                rel.CreateOutputTransaction(),
+                rel.CreateOutputInput(),
+                rel.CreateGuessedMinerBlock()
+            };
+
+            foreach (Task<string> task in IndexTasks.Concat(RelsTasks))
+            {
+                await task;
+            }
         }
 
         private static IEnumerable<Node> read(Element element, int day)
