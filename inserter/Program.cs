@@ -34,28 +34,28 @@ namespace inserter
 
             Relationships rel = new Relationships();
             
-            var IndexTasks = new List<Task<string>>() 
+            var IndexTasks = new List<Func<Task<string>>>() 
             {
-                rel.CreateTransactionHashIndex(),
-                rel.CreateTransactionDateIndex(),
-                rel.CreateInputHashIndex(),
-                rel.CreateOutputHashIndex(),
-                rel.CreateInputRecipientIndex(),
-                rel.CreateOutputRecipientIndex()
+                rel.CreateTransactionHashIndex,
+                rel.CreateTransactionDateIndex,
+                rel.CreateInputHashIndex,
+                rel.CreateOutputHashIndex,
+                rel.CreateInputRecipientIndex,
+                rel.CreateOutputRecipientIndex
             };
 
-            var RelsTasks = new List<Task<string>>() 
+            var RelsTasks = new List<Func<Task<string>>>() 
             {
-                rel.CreateBlockTransaction(),
-                rel.CreateInputTransaction(),
-                rel.CreateOutputTransaction(),
-                rel.CreateOutputInput(),
-                rel.CreateGuessedMinerBlock()
+                rel.CreateBlockTransaction,
+                rel.CreateInputTransaction,
+                rel.CreateOutputTransaction,
+                rel.CreateOutputInput,
+                rel.CreateGuessedMinerBlock
             };
 
-            foreach (Task<string> task in IndexTasks.Concat(RelsTasks))
+            foreach (var task in IndexTasks.Concat(RelsTasks))
             {
-                await task;
+                await task();
             }
         }
 
